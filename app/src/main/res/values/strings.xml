@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="red">"red"</string>
+    <string name="blue">"blue"</string>
+    <string name="green">"green"</string>
+    <string name="firstFirst">"Заказывайте услуги отеля
+из любого места
+онлайн"</string>
+    <string name="first_to">"Оплачивайте прямо
+в приложении"</string>
+    <string name="first_three">"Оставьте ваш отзыв"</string>
+    <string name="buttonText">"Понятно"</string>
 </resources>
