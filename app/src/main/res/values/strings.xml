@@ -3,6 +3,15 @@
     <string name="red">"red"</string>
     <string name="blue">"blue"</string>
     <string name="green">"green"</string>
+    <string name="login_pochta">"Почта"</string>
+    <string name="login_parol">"Пароль"</string>
+    <string name="login_button_voti">"Войти"</string>
+    <string name="login_button_reg">"Регистрация"</string>
+    <string name="soglasiye">Нажимая сохранить я соглашаюсь с
+правилами сервиса и политикой
+конфиденциальности"</string>
+
+
     <string name="firstFirst">"Заказывайте услуги отеля
 из любого места
 онлайн"</string>
