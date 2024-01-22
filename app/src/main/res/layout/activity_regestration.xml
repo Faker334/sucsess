@@ -13,15 +13,15 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/philosopher"
         android:text="@string/soglasiye"
-        app:layout_constraintBottom_toTopOf="@+id/VoityButton"
+        app:layout_constraintBottom_toTopOf="@+id/to_registr_but"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText3"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditTextParol"
         android:gravity="center"/>
 
     <EditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/emailEditTextImya"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
@@ -29,7 +29,7 @@
 
         android:layout_marginEnd="10dp"
         android:background="@drawable/login_shape"
-        android:drawableStart="@drawable/hpne"
+        android:drawableStart="@drawable/chelovechekxml"
         android:drawableLeft="@drawable/phone"
         android:drawablePadding="20dp"
         android:drawableTint="#19C179"
@@ -45,7 +45,7 @@
 
 
     <EditText
-        android:id="@+id/emailEditText1"
+        android:id="@+id/emailEditTextFamili"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
@@ -53,7 +53,7 @@
 
         android:layout_marginEnd="10dp"
         android:background="@drawable/login_shape"
-        android:drawableStart="@drawable/hpne"
+        android:drawableStart="@drawable/chelovechekxml"
         android:drawablePadding="20dp"
         android:drawableTint="#19C179"
         android:fontFamily="@font/philosopher"
@@ -63,11 +63,11 @@
         android:textColor="#C4C4C4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/emailEditTextImya" />
 
 
     <EditText
-        android:id="@+id/emailEditText2"
+        android:id="@+id/emailEditTextPochta"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
@@ -75,7 +75,7 @@
 
         android:layout_marginEnd="10dp"
         android:background="@drawable/login_shape"
-        android:drawableStart="@drawable/hpne"
+        android:drawableStart="@drawable/chelovechekxml"
         android:drawablePadding="20dp"
         android:drawableTint="#19C179"
         android:fontFamily="@font/philosopher"
@@ -85,11 +85,11 @@
         android:textColor="#C4C4C4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText1" />
+        app:layout_constraintTop_toBottomOf="@+id/emailEditTextFamili" />
 
 
     <EditText
-        android:id="@+id/emailEditText3"
+        android:id="@+id/emailEditTextParol"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
@@ -97,7 +97,7 @@
 
         android:layout_marginEnd="10dp"
         android:background="@drawable/login_shape"
-        android:drawableStart="@drawable/hpne"
+        android:drawableStart="@drawable/chelovechekxml"
         android:drawablePadding="20dp"
         android:drawableTint="#19C179"
         android:fontFamily="@font/philosopher"
@@ -107,10 +107,10 @@
         android:textColor="#C4C4C4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailEditTextPochta" />
 
     <Button
-        android:id="@+id/VoityButton"
+        android:id="@+id/to_registr_but"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
@@ -120,7 +120,7 @@
 
         android:textColor="#FEFEFF"
         android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText3"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditTextParol"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView

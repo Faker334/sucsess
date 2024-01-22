@@ -60,63 +60,29 @@ public class MainActivity extends AppCompatActivity {
                 // Обновление пользовательского интерфейса по завершении
             }
         }
-    private class avtorizaciya extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            MediaType mediaType = MediaType.parse("application/json");
-            RequestBody body = RequestBody.create(mediaType, "{\r\n    \"email\":\"t.itarova@yandex.ru\",\r\n    \"password\":\"123456\"\r\n\r\n}");
-            Request request = new Request.Builder()
-                    .url("https://app.successhotel.ru/api/client/login")
-                    .method("POST", body)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Content-Type", "application/json")
-                    .build();
 
-
-
-
-            try {
-                Response response = client.newCall(request).execute();
-
-
-                Log.e("Tag",response.body().string());
-
-            } catch (IOException e) {
-                Log.e("Tag", "мяу");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            // Обновление пользовательского интерфейса по завершении
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
          //   ifFirst();
-            //new ListUslug().execute();
-     //  new avtorizaciya().execute();
-//        SharedPreferences encryptedPrefs = MyPreferences.getEncryptedSharedPreferences(this);
-//        if (encryptedPrefs.contains("token")){
-//            String data = encryptedPrefs.getString("token", "123");
-//            Log.e("tag","токен есть");
-//            Log.e("tag",data);
-//        }else {
+
+        SharedPreferences encryptedPrefs = MyPreferences.getEncryptedSharedPreferences(this);
+        if (encryptedPrefs.contains("token")){
+            String data = encryptedPrefs.getString("token", "123");
+            Log.e("tag","токен есть");
+            Log.e("tag",data);
+            Intent i = new Intent(MainActivity.this, Zaseleniye.class);
+            startActivity(i);
+        }else {
             Intent i = new Intent(MainActivity.this, avtorization.class);
             startActivity(i);
 
 
 
             Log.e("tag","токена нет, записал");
-
-//        }
+        }
 
 // Чтение данных
 

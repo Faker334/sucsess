@@ -5,7 +5,7 @@
     android:padding="16dp">
 
   <EditText
-      android:id="@+id/emailEditText"
+      android:id="@+id/emailEditTextImya"
       android:layout_width="match_parent"
       android:layout_height="50dp"
       android:layout_alignParentEnd="true"
@@ -13,7 +13,7 @@
       android:layout_marginEnd="16dp"
 
       android:background="@drawable/login_shape"
-      android:drawableStart="@drawable/hpne"
+      android:drawableStart="@drawable/chelovechekxml"
       android:drawablePadding="20dp"
       android:drawableTint="#19C179"
       android:fontFamily="@font/philosopher"
@@ -26,13 +26,13 @@
       android:id="@+id/passwordEditText"
       android:layout_width="match_parent"
       android:layout_height="50dp"
-      android:layout_below="@id/emailEditText"
+      android:layout_below="@id/emailEditTextImya"
       android:layout_alignParentEnd="true"
       android:layout_marginTop="20dp"
       android:layout_marginEnd="16dp"
 
       android:background="@drawable/login_shape"
-      android:drawableStart="@drawable/hpne"
+      android:drawableStart="@drawable/chelovechekxml"
       android:drawablePadding="20dp"
       android:drawableTint="#19C179"
       android:fontFamily="@font/philosopher"
@@ -42,7 +42,7 @@
       android:textColor="#C4C4C4" />
 
   <Button
-      android:id="@+id/VoityButton"
+      android:id="@+id/to_registr_but"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@+id/passwordEditText"
