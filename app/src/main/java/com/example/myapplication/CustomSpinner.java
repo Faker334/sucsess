@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,7 @@ public class CustomSpinner extends AppCompatSpinner {
         return super.performClick();
     }
 
+
     @Override
     public void onWindowFocusChanged (boolean hasFocus) {
         if (hasBeenOpened() && hasFocus) {
@@ -80,6 +82,7 @@ public class CustomSpinner extends AppCompatSpinner {
             mListener.onPopupWindowClosed(this);
         }
     }
+
 
     /**
      * A boolean flag indicating that the Spinner triggered an open event.

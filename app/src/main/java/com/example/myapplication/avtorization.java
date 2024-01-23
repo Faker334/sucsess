@@ -33,6 +33,7 @@ public class avtorization extends AppCompatActivity {
 
     private class Avtorizaciya extends AsyncTask<List<String>, Void, String> {
 
+
         protected void  onPreExecute(){
             Login = new ArrayList<>();
             Login.add(StrokaLogin.getText().toString());
@@ -76,9 +77,9 @@ public class avtorization extends AppCompatActivity {
 
             SharedPreferences encryptedPrefs = MyPreferences.getEncryptedSharedPreferences(avtorization.this);
                 SharedPreferences.Editor editor = encryptedPrefs.edit();
-                editor.putString("token", jsonPars(result));
+                editor.putString("token", TokenFromJson(result));
                 editor.apply();
-                Log.e("Tag", jsonPars(result));
+                Log.e("Tag", TokenFromJson(result));
 
 
 
@@ -121,7 +122,7 @@ public class avtorization extends AppCompatActivity {
 
 
     }
-    public String jsonPars(String jsonString){
+    public String TokenFromJson(String jsonString){
         try {
             JSONObject jObject = new JSONObject(jsonString);
             return jObject.getString("token");

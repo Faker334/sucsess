@@ -1,4 +1,6 @@
 package com.example.myapplication.inventory;
+import com.example.myapplication.R;
+
 import java.io.Serializable;
 
 public class HotelName implements Serializable {
@@ -6,7 +8,9 @@ public class HotelName implements Serializable {
     private String name;
     private int image;
 
-    public HotelName() {
+    public HotelName(String s) {
+        this.name=s;
+        this.image= R.drawable.krovat;
     }
 
     public String getName() {
