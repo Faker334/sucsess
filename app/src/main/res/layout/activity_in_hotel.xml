@@ -6,4 +6,119 @@
     android:layout_height="match_parent"
     tools:context=".InHotel">
 
+
+<!--    <WebView-->
+<!--        android:id="@+id/webview1"-->
+<!--        android:layout_width="391dp"-->
+<!--        android:layout_height="783dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ikonsaccesh" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="85dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/philosopher"
+        android:text="Сервисы"
+        android:textColor="#3B3B3B"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dno_svg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:srcCompat="@drawable/dno_svg" />
+
+
+
+    <ImageButton
+        android:id="@+id/Button_moi_zaprosi"
+        android:layout_width="76dp"
+        android:layout_height="45.18dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_moi_servis_svg"
+        app:layout_constraintStart_toStartOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <ImageButton
+        android:id="@+id/Button_profil"
+        android:layout_width="51dp"
+        android:layout_height="46.96dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="46dp"
+        android:background="@drawable/button_profil"
+        app:layout_constraintEnd_toEndOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <ImageButton
+        android:id="@+id/Button_servisi"
+        android:layout_width="57dp"
+        android:layout_height="101dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_servisi_i_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="22dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="@+id/Button_servisi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/kartinka_in_buton_servis" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshlayaut"
+        android:layout_width="match_parent"
+        android:layout_height="484dp"
+        android:layout_marginTop="16dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/servis_recikleview"
+            android:layout_width="391dp"
+            android:layout_height="527dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/moizakazi_recikleview"
+        android:layout_width="391dp"
+        android:layout_height="527dp"
+        android:layout_marginTop="156dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

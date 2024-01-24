@@ -43,6 +43,10 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
     implementation ("androidx.security:security-crypto:1.1.0-alpha03")
+    implementation ("io.github.everythingme:overscroll-decor-android:1.1.1")
+    implementation ("androidx.recyclerview:recyclerview:1.1.0")
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
 
 
 
