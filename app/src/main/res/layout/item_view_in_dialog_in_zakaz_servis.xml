@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/zakrugl"
+
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_tipe_1"
+
+        android:visibility="gone"
+        android:layout_width="338dp"
+        android:layout_height="109dp"
+        android:layout_marginBottom="12dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/layout_tipe_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/name_type1"
+            android:layout_width="276dp"
+            android:layout_height="41dp"
+            android:gravity="center|start"
+            android:text="Название предмета"
+            android:textColor="#3B3B3B"
+            app:layout_constraintBottom_toTopOf="@+id/editTextText2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+
+            android:id="@+id/editTextText2"
+            android:layout_width="331dp"
+            android:layout_height="56dp"
+            android:background="@drawable/zagrugl_otstup"
+            android:ems="10"
+            android:hint="выбрать"
+            android:inputType="text"
+            android:paddingLeft="45dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="204dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:text="Дополнительные услуги"
+        android:textColor="#3B3B3B"
+        app:layout_constraintBottom_toTopOf="@+id/layout_tipe_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.427"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonzakazulsug"
+        android:layout_width="292dp"
+        android:layout_height="47dp"
+
+
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/button_rounded"
+        android:text="Готово"
+        android:textAllCaps="false"
+        android:textColor="#FEFEFF"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.455"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_tipe_3"
+        android:layout_width="334dp"
+        android:layout_height="129dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/buttonzakazulsug"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:id="@+id/name_tipe3"
+            android:layout_width="158dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="24dp"
+            android:onClick="setDate"
+            android:text="Название доп услуги"
+            android:textColor="#3B3B3B"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner_options"
+            android:layout_width="302dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/layout_tipe_2"
+        android:layout_width="337dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_tipe_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/name_tipe2"
+            android:layout_width="105dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center|start"
+            android:text="Количество"
+            android:textColor="#3B3B3B"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ButtonCountMinus"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/name_tipe2"
+            app:srcCompat="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/Buttoncountplus"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/plus" />
+
+        <TextView
+            android:id="@+id/textViewCount"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/Buttoncountplus"
+            app:layout_constraintStart_toEndOf="@+id/ButtonCountMinus" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

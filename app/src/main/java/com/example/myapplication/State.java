@@ -3,6 +3,7 @@ package com.example.myapplication;
 
 import java.sql.Time;
 import java.util.List;
+import java.util.Map;
 
 public class State {
 
@@ -11,12 +12,12 @@ public class State {
 
     private int IkonUslugi; // ресурс флага
 
-    public String getOrganization_id() {
-        return organization_id;
+    public int getOrganization_id() {
+        return id;
     }
 
-    public void setOrganization_id(String organization_id) {
-        this.organization_id = organization_id;
+    public void setOrganization_id(int id) {
+        this.id = id;
     }
 
     public String getValuta() {
@@ -83,23 +84,23 @@ public class State {
         this.optionsTipe = optionsTipe;
     }
 
-    public List<String> getOptionsName() {
+    public Map<Integer,String> getOptionsName() {
         return optionsName;
     }
 
-    public void setOptionsName(List<String> optionsName) {
+    public void setOptionsName(Map<Integer,String> optionsName) {
         this.optionsName = optionsName;
     }
 
-    public List<String> getOptionsValue() {
+    public String[] getOptionsValue() {
         return optionsValue;
     }
 
-    public void setOptionsValue(List<String> optionsValue) {
+    public void setOptionsValue(String[] optionsValue) {
         this.optionsValue = optionsValue;
     }
 
-    private String organization_id;
+    private int id;
     private String valuta;
     private String time_available_from;
     private String time_available_to;
@@ -108,16 +109,18 @@ public class State {
     private String options;
     private String optionsCaunt;
     private List<String> optionsTipe;
-    private List<String> optionsName;
-    private List<String> optionsValue;
+    private Map<Integer,String> optionsName;
+    private String[] optionsValue;
 
 
 
-    public State(String name, String capital, int flag){
-
+    public State(String name, String capital, int flag,Map<Integer,String> optionsName,String[] optionsValue,int organization_id){
+        this.optionsName=optionsName;
+        this.optionsValue=optionsValue;
         this.name=name;
         this.cenaUslugi =capital;
         this.IkonUslugi =flag;
+        this.id=organization_id;
     }
 
     public String getName() {

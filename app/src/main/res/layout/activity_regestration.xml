@@ -12,13 +12,14 @@
         android:layout_height="71dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/philosopher"
+        android:gravity="center"
         android:text="@string/soglasiye"
         app:layout_constraintBottom_toTopOf="@+id/to_registr_but"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextParol"
-        android:gravity="center"/>
+        app:layout_constraintVertical_bias="0.207" />
 
     <EditText
         android:id="@+id/emailEditTextImya"
@@ -109,11 +110,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextPochta" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/to_registr_but"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="116dp"
         android:background="@drawable/button_rounded"
         android:text="Сохранить"
         android:textAllCaps="false"
@@ -134,6 +135,7 @@
         android:text=" Регистрация"
         android:textColor="#3B3B3B"
         android:textSize="24dp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

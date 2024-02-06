@@ -8,7 +8,18 @@ public class HotelName implements Serializable {
     private String name;
     private int image;
 
-    public HotelName(String s) {
+    public int getIdroom() {
+        return idroom;
+    }
+
+    public void setIdroom(int idroom) {
+        this.idroom = idroom;
+    }
+
+    private int idroom;
+
+    public HotelName(String s,int idroom) {
+        this.idroom=idroom;
         this.name=s;
         this.image= R.drawable.krovat;
     }

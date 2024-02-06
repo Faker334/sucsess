@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/ikonsaccesh" />
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/firststrbut"
         android:layout_width="325dp"
         android:layout_height="57dp"

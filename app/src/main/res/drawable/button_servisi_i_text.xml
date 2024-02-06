@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="ring">
+                    <solid android:color="#00ffffff"/>
+
+                </shape>
+
+            </item>
+
+
+            <item
+                android:top="60dp"
+                android:drawable="@drawable/tewxt_strvisi"
+                android:gravity="center_vertical|end"
+                />
+            <item
+
+                android:bottom="40dp"
+                android:drawable="@drawable/button_servisi"
+                android:gravity="center_vertical|end"
+                />
+
+        </layer-list>
+
+    </item>
+</selector>

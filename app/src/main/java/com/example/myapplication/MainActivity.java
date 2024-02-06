@@ -26,49 +26,11 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-//        private class ListUslug extends AsyncTask<Void, Void, Void> {
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                String token = "155|PSoTmjnJCMs69eKh9cac7Ajktvg1i1dgugCtcFX0"; // Замените на реальный токен пользователя
-//
-//
-//                OkHttpClient client = new OkHttpClient().newBuilder().build();
-//                Request request = new Request.Builder()
-//                        .url("https://app.successhotel.ru/api/client/services")
-//                        .method("GET", null) // Используйте null вместо body для метода GET
-//                        .addHeader("Accept", "application/json")
-//                        .addHeader("Authorization", "Bearer " + token) // Предполагая, что у вас есть переменная token
-//                        .build();
-//
-//
-//
-//                try {
-//                    Response response = client.newCall(request).execute();
-//
-//
-//                    Log.e("Tag",response.body().string());
-//
-//                } catch (IOException e) {
-//                    Log.e("Tag", "мяу");
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Void result) {
-//                // Обновление пользовательского интерфейса по завершении
-//            }
-//        }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        startActivity(new Intent(MainActivity.this, InHotel.class));
-       // ifFirst();
+        ifFirst();
 
     }
     public void ifFirst(){
@@ -78,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("FIRST_START", true)) {
                     Intent i = new Intent(MainActivity.this, FirstStartL.class);
                     startActivity(i);
+                    finish();
                     Log.e("запустил приветствие","afa");
                 }else {
                     Log.e("не запустил приветствие","afa");
@@ -87,13 +50,17 @@ public class MainActivity extends AppCompatActivity {
                         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("ALREADYINHOTEL",false)){
                             Log.e("уже в отеле","00");
                             startActivity(new Intent(MainActivity.this, InHotel.class));
+                            finish();
+
                         }
                         else {startActivity(new Intent(MainActivity.this, Zaseleniye.class));
+                            finish();
                             Log.e("еще не в отеле","00");}
                     }
                     else {
                         Intent i = new Intent(MainActivity.this, avtorization.class);
                         startActivity(i);
+                        finish();
                         Log.e("токена нет","в авторизацию");
                     }}
 

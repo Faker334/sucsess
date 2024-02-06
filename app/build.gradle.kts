@@ -46,6 +46,7 @@ dependencies {
     implementation ("io.github.everythingme:overscroll-decor-android:1.1.1")
     implementation ("androidx.recyclerview:recyclerview:1.1.0")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation ("com.github.yuriy-budiyev:code-scanner:2.3.0")
 
 
 

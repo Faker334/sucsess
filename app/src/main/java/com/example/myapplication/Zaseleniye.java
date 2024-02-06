@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +37,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class Zaseleniye extends AppCompatActivity  {
-    String IdHotel="-1";
+    int IdHotel=-1;
+    int idroom;
 
     String NumberNomer="-1";
     String data="-1";
@@ -49,8 +51,9 @@ public class Zaseleniye extends AppCompatActivity  {
     private CustomSpinner spinner_Hotel;
     private CustomSpinner spinner_Number;
 
-    private FruitAdapter HotelAdapter;
-    private FruitAdapter NumberAdapter;
+    private Adapter HotelAdapter;
+    private Adapter NumberAdapter;
+    Button qrCodeButton;
 
 
     private class GetListHotel extends AsyncTask<Void, Void, String> {
@@ -86,8 +89,9 @@ public class Zaseleniye extends AppCompatActivity  {
                 for (int i=0; i < jArray.length(); i++)
                 {
                         JSONObject oneObject = jArray.getJSONObject(i);
-                        String oneObjectsItem = oneObject.getString("id");
-                        HotelList.add(new HotelName(oneObjectsItem));
+                        String oneObjectsItem = oneObject.getString("title");
+                        int idHotela  = oneObject.getInt("id");
+                        HotelList.add(new HotelName(oneObjectsItem,idHotela));
 
 
                 }
@@ -103,7 +107,7 @@ public class Zaseleniye extends AppCompatActivity  {
         protected void  onPreExecute(){
 
         NumberlList.clear();
-        NumberlList.add(new HotelName("1"));
+        NumberlList.add(new HotelName("1",-1));
         }
         @Override
         protected String doInBackground(Void... voids) {
@@ -115,7 +119,7 @@ public class Zaseleniye extends AppCompatActivity  {
                     .url("https://app.successhotel.ru/api/client/organizations/"+IdHotel+"/rooms")
                     .method("GET", null)
                     .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + getToken()) // Добавление заголовка Authorization
+                    .addHeader("Authorization", "Bearer " + getToken())
                     .build();
 
 
@@ -137,9 +141,11 @@ public class Zaseleniye extends AppCompatActivity  {
                 {
                     JSONObject oneObject = jArray.getJSONObject(i);
                     String oneObjectsItem = oneObject.getString("name");
-                    NumberlList.add(new HotelName(oneObjectsItem));
+                    int idroom = oneObject.getInt("id");
+                    NumberlList.add(new HotelName(oneObjectsItem,idroom));
                    Log.e("добавил в намбер лист",NumberlList.get(i).getName());
                 }
+
 
             } catch (JSONException e) {
                 Log.e("tatat","не нашел комнаты по айди"+IdHotel);
@@ -159,7 +165,7 @@ public class Zaseleniye extends AppCompatActivity  {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(mediaType, "{\r\n    \"room_id\":"+NumberNomer+",\r\n    \"chek_in_date\":\""+data+"\"\r\n}");
+            RequestBody body = RequestBody.create(mediaType, "{\r\n    \"room_id\":"+idroom+",\r\n    \"chek_in_date\":\""+data+"\"\r\n}");
             Request request = new Request.Builder()
                     .url("https://app.successhotel.ru/api/client/check-in")
                     .method("POST", body)
@@ -169,12 +175,12 @@ public class Zaseleniye extends AppCompatActivity  {
 
 
 
-            Log.e("tatata","{\r\n    \"room_id\":"+NumberNomer+",\r\n    \"chek_in_date\":\""+data+"\"\r\n}");
+            Log.e("tug","{\r\n    \"room_id\":"+idroom+",\r\n    \"chek_in_date\":\""+data+"\"\r\n}");
 
             try {
                 return client.newCall(request).execute().body().string();
             } catch (IOException e) {
-                Log.e("Tag", "мяу");
+                Log.e("Tag", "tug");
                 e.printStackTrace();
             }
             return null;
@@ -183,11 +189,14 @@ public class Zaseleniye extends AppCompatActivity  {
         @Override
         protected void onPostExecute(String result) {
             if (result.contains("true")){
-
+                SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+                e.putBoolean("ALREADYINHOTEL", true);
+                e.apply();
                 Intent i = new Intent(Zaseleniye.this, InHotel.class);
                 startActivity(i);
+                finish();
             }else Toast.makeText(Zaseleniye.this,"Ошибка",Toast.LENGTH_LONG).show();
-            Log.e("TTTTTTTTTAAAAAAAAAAAAAAAGGGG", result);
+            Log.e("tag", result);
         }
     }
 
@@ -201,6 +210,14 @@ public class Zaseleniye extends AppCompatActivity  {
 
         SpinerHOtelTextVIew =findViewById(R.id.spinerhoteltext);
         SpinerNumberTextVIew= findViewById(R.id.spinernumberltext);
+        qrCodeButton= findViewById(R.id.button_qrcod);
+        qrCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Zaseleniye.this,qrcodeActiviti.class));
+            }
+        });
         SpinerNumberTextVIew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,8 +231,8 @@ public class Zaseleniye extends AppCompatActivity  {
                 spinner_Hotel.performClick();
             }
         });
-        HotelList.add(new HotelName("-1"));
-        NumberlList.add(new HotelName("-1"));
+        HotelList.add(new HotelName("-1",-1));
+        NumberlList.add(new HotelName("-1",-1));
 
 
 
@@ -227,7 +244,7 @@ public class Zaseleniye extends AppCompatActivity  {
         InhotelBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!IdHotel.equals("-1") && !(NumberNomer.equals("-1"))&& !(data.equals("-1"))){
+                if (IdHotel!=-1 && idroom!=-1&& !(data.equals("-1"))){
                 new ToNomerInHotel().execute();}
 
             }
@@ -235,11 +252,11 @@ public class Zaseleniye extends AppCompatActivity  {
 
 
         spinner_Hotel = findViewById(R.id.spinner_hotel);                   //присвоение адаптеров
-        HotelAdapter = new FruitAdapter(Zaseleniye.this, HotelList);
+        HotelAdapter = new Adapter(Zaseleniye.this, HotelList);
         spinner_Hotel.setAdapter(HotelAdapter);
 
         spinner_Number =findViewById(R.id.spinner_nomer);
-        NumberAdapter = new FruitAdapter(Zaseleniye.this, NumberlList);
+        NumberAdapter = new Adapter(Zaseleniye.this, NumberlList);
         spinner_Number.setPrompt("выберите номеррррр");
         spinner_Number.setAdapter(NumberAdapter);
 
@@ -251,8 +268,9 @@ public class Zaseleniye extends AppCompatActivity  {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Получение выбранного элемента как объекта
                 Log.e("нажали на спинер_хотел","777");
-                IdHotel = HotelList.get(position).getName();
+                IdHotel = HotelList.get(position).getIdroom();
                 if (position!=0){
+
                     spinner_Number.setEnabled(true);
                     new GetNomerBYHOtel().execute();
                     SpinerHOtelTextVIew.setText(HotelList.get(position).getName());
@@ -267,8 +285,8 @@ public class Zaseleniye extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position!=0){
-                NumberNomer = NumberlList.get(position).getName();
-                SpinerNumberTextVIew.setText(NumberNomer);
+                idroom = NumberlList.get(position).getIdroom();
+                SpinerNumberTextVIew.setText(NumberlList.get(position).getName());
                 Log.e("Зашел в лист спинер_намбер",NumberNomer);}
                             }
             public void onNothingSelected(AdapterView<?> parent) {

@@ -1,4 +1,7 @@
 package com.example.myapplication;
+
+
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +18,7 @@ public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>
         void onStateClick(State state, int position);
     }
 
-    public final OnStateClickListener onClickListener;
+    private final OnStateClickListener onClickListener;
 
     private final LayoutInflater inflater;
     private final List<State> states;
@@ -37,7 +40,7 @@ public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>
         State state = states.get(position);
         holder.flagView.setImageResource(state.getIkonUslugi());
         holder.nameView.setText(state.getName());
-        holder.cenatextview.setText(state.getCenaUslugi());
+        holder.capitalView.setText(state.getCenaUslugi());
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -55,14 +58,12 @@ public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView flagView;
-        final TextView nameView;
-        final TextView cenatextview;
+        final TextView nameView, capitalView;
         ViewHolder(View view){
             super(view);
             flagView = view.findViewById(R.id.flag);
             nameView = view.findViewById(R.id.name);
-            cenatextview = view.findViewById(R.id.cenatextview);
-
+            capitalView = view.findViewById(R.id.cenatextview);
         }
     }
 }

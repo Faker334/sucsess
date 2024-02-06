@@ -21,12 +21,12 @@ import java.util.List;
  *     Created by DailyCoding on 15-May-21.  *
  ********************************************/
 
-public class FruitAdapter extends BaseAdapter {
+public class Adapter extends BaseAdapter {
 
     private Context context;
     private List<HotelName> fruitList;
 
-    public FruitAdapter(Context context, List<HotelName> fruitList) {
+    public Adapter(Context context, List<HotelName> fruitList) {
         this.context = context;
         this.fruitList = fruitList;
     }
@@ -66,7 +66,7 @@ public class FruitAdapter extends BaseAdapter {
 
     private View createItemView(int i, ViewGroup viewGroup) {
         View rootView = LayoutInflater.from(context)
-                .inflate(R.layout.item_fruit, viewGroup, false);
+                .inflate(R.layout.item_fru, viewGroup, false);
 
         TextView txtName = rootView.findViewById(R.id.name);
         ImageView image = rootView.findViewById(R.id.image);

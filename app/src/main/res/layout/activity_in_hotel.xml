@@ -4,16 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     tools:context=".InHotel">
 
 
-<!--    <WebView-->
-<!--        android:id="@+id/webview1"-->
-<!--        android:layout_width="391dp"-->
-<!--        android:layout_height="783dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--    <WebView-->
+    <!--        android:id="@+id/webview1"-->
+    <!--        android:layout_width="391dp"-->
+    <!--        android:layout_height="783dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/ProfilLayout"
+        android:layout_width="320dp"
+        android:layout_height="182dp"
+        android:layout_marginTop="148dp"
+        android:background="@drawable/layout_border"
+        android:visibility="gone"
+        app:cornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/PochtaProfile"
+            android:layout_width="205dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/philosopher"
+            android:gravity="center"
+            android:text="фио"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/FioPRofil" />
+
+        <TextView
+            android:id="@+id/FioPRofil"
+            android:layout_width="205dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/philosopher"
+            android:gravity="center"
+            android:text="почта"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/exitButton"
+            android:layout_width="71dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/exit_svgrepo_com" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/visilitsya_button"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="153dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/philosopher"
+            android:text="Выселиться"
+            android:textAllCaps="false"
+            android:textColor="#3B3B3B"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PochtaProfile"
+            app:strokeColor="#3B3B3B" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imageView7"
@@ -26,11 +98,12 @@
         app:srcCompat="@drawable/ikonsaccesh" />
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="85dp"
-        android:layout_height="31dp"
+        android:id="@+id/Activ"
+        android:layout_width="176dp"
+        android:layout_height="26dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/philosopher"
+        android:gravity="center"
         android:text="Сервисы"
         android:textColor="#3B3B3B"
         android:textSize="20dp"
@@ -45,10 +118,8 @@
         android:background="@drawable/dno_svg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@drawable/dno_svg" />
-
 
 
     <ImageButton
@@ -94,31 +165,35 @@
         app:srcCompat="@drawable/kartinka_in_buton_servis" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
         android:id="@+id/refreshlayaut"
         android:layout_width="match_parent"
         android:layout_height="484dp"
         android:layout_marginTop="16dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8">
+        app:layout_constraintTop_toBottomOf="@+id/Activ">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/servis_recikleview"
             android:layout_width="391dp"
             android:layout_height="527dp"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/Activ" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/moizakazi_recikleview"
+            android:layout_width="391dp"
+            android:layout_height="527dp"
+            android:layout_marginTop="156dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/moizakazi_recikleview"
-        android:layout_width="391dp"
-        android:layout_height="527dp"
-        android:layout_marginTop="156dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
