@@ -1,4 +1,6 @@
-package com.example.myapplication;
+package com.example.myapplication.view.adapter;
+
+import com.example.myapplication.R;
 
 public enum ModelObject {
     PERVAYA(R.string.red, R.layout.view_one),

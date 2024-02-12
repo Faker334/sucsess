@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.activiti;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +8,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.myapplication.MyPreferences;
+import com.example.myapplication.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,7 +74,7 @@ public class test extends AppCompatActivity {
 
 
             } catch (JSONException e) {
-                startActivity(new Intent(test.this,InHotel.class));
+                startActivity(new Intent(test.this, InHotel.class));
                 Log.e("413","41");
             }}
 

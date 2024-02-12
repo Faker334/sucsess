@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.activiti;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,6 +24,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.example.myapplication.MyPreferences;
+import com.example.myapplication.R;
+import com.example.myapplication.view.adapter.State;
+import com.example.myapplication.view.adapter.StateAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

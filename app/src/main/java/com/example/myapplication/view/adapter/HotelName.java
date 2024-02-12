@@ -1,4 +1,4 @@
-package com.example.myapplication.inventory;
+package com.example.myapplication.view.adapter;
 import com.example.myapplication.R;
 
 import java.io.Serializable;

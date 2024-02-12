@@ -1,27 +1,16 @@
-package com.example.myapplication;
+package com.example.myapplication.view.activiti;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Button;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import com.example.myapplication.MyPreferences;
+import com.example.myapplication.R;
 
 
 public class MainActivity extends AppCompatActivity {

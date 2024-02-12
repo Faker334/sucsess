@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.adapter;
 
 
 
@@ -13,7 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.myapplication.inventory.HotelName;
+import com.example.myapplication.R;
+import com.example.myapplication.view.adapter.HotelName;
 
 import java.util.List;
 

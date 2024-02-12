@@ -1,9 +1,6 @@
-package com.example.myapplication.inventory;
-
-import static java.security.AccessController.getContext;
+package com.example.myapplication.view.adapter;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.example.myapplication.ModelObject;
-import com.example.myapplication.MyScroller;
 
 import java.lang.reflect.Field;
 

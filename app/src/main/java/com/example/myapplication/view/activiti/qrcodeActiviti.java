@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.activiti;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.example.myapplication.MyPreferences;
+import com.example.myapplication.R;
 import com.google.zxing.Result;
 
 import org.json.JSONObject;
@@ -29,7 +31,6 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class qrcodeActiviti extends AppCompatActivity {
 
@@ -77,7 +78,7 @@ public class qrcodeActiviti extends AppCompatActivity {
                     new ToNomerInHotel().execute();
                 }else {
                     Toast.makeText(qrcodeActiviti.this,"Ошибка",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(qrcodeActiviti.this,Zaseleniye.class));
+                    startActivity(new Intent(qrcodeActiviti.this, Zaseleniye.class));
                 }
                 Log.e("tag", result);
                 Log.e("tag", qrCode);

@@ -21,29 +21,29 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".qrcodeActiviti"
+            android:name=".view.activiti.qrcodeActiviti"
             android:exported="false" />
         <activity
-            android:name=".test"
+            android:name=".view.activiti.test"
             android:exported="false" />
         <activity
-            android:name=".FirstStartL"
+            android:name=".view.activiti.FirstStartL"
             android:exported="false" />
         <activity
-            android:name=".InHotel"
+            android:name=".view.activiti.InHotel"
             android:exported="false"
             />
         <activity
-            android:name=".Zaseleniye"
+            android:name=".view.activiti.Zaseleniye"
             android:exported="false" />
         <activity
-            android:name=".regestration"
+            android:name=".view.activiti.regestration"
             android:exported="false" />
         <activity
-            android:name=".avtorization"
+            android:name=".view.activiti.avtorization"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activiti.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.activiti;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -11,7 +11,8 @@ import android.view.View;
 import android.widget.Button;
 
 
-import com.example.myapplication.inventory.CustomPagerAdapter;
+import com.example.myapplication.R;
+import com.example.myapplication.view.adapter.CustomPagerAdapter;
 
 public class FirstStartL extends AppCompatActivity {
     public Button firstStrB;
@@ -60,7 +61,7 @@ public class FirstStartL extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                // Этот метод вызывается при любом скроллинге пользователем.
+                // вызывается при любом скроллинге пользователем.
             }
 
             @Override

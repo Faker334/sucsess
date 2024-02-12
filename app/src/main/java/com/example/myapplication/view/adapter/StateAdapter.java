@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.adapter;
 
 
 
@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.R;
+
 import java.util.List;
 
 public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>{
 
-    interface OnStateClickListener{
+    public interface OnStateClickListener{
         void onStateClick(State state, int position);
     }
 
@@ -23,7 +25,7 @@ public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>
     private final LayoutInflater inflater;
     private final List<State> states;
 
-    StateAdapter(Context context, List<State> states, OnStateClickListener onClickListener) {
+    public StateAdapter(Context context, List<State> states, OnStateClickListener onClickListener) {
         this.onClickListener = onClickListener;
         this.states = states;
         this.inflater = LayoutInflater.from(context);

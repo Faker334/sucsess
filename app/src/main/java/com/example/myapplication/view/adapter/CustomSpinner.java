@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;

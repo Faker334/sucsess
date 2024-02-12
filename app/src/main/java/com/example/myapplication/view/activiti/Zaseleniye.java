@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view.activiti;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +18,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.myapplication.inventory.HotelName;
+import com.example.myapplication.view.adapter.Adapter;
+import com.example.myapplication.view.adapter.CustomSpinner;
+import com.example.myapplication.MyPreferences;
+import com.example.myapplication.R;
+import com.example.myapplication.view.adapter.HotelName;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -215,7 +219,7 @@ public class Zaseleniye extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(Zaseleniye.this,qrcodeActiviti.class));
+                startActivity(new Intent(Zaseleniye.this, qrcodeActiviti.class));
             }
         });
         SpinerNumberTextVIew.setOnClickListener(new View.OnClickListener() {
