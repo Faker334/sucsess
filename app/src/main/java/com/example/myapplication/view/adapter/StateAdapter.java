@@ -17,17 +17,17 @@ import java.util.List;
 public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>{
 
     public interface OnStateClickListener{
-        void onStateClick(State state, int position);
+        void onStateClick(Servise servise, int position);
     }
 
     private final OnStateClickListener onClickListener;
 
     private final LayoutInflater inflater;
-    private final List<State> states;
+    private final List<Servise> servises;
 
-    public StateAdapter(Context context, List<State> states, OnStateClickListener onClickListener) {
+    public StateAdapter(Context context, List<Servise> servises, OnStateClickListener onClickListener) {
         this.onClickListener = onClickListener;
-        this.states = states;
+        this.servises = servises;
         this.inflater = LayoutInflater.from(context);
     }
     @Override
@@ -39,23 +39,23 @@ public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(StateAdapter.ViewHolder holder, int position) {
-        State state = states.get(position);
-        holder.flagView.setImageResource(state.getIkonUslugi());
-        holder.nameView.setText(state.getName());
-        holder.capitalView.setText(state.getCenaUslugi());
+        Servise servise = servises.get(position);
+        holder.flagView.setImageResource(servise.getIkonUslugi());
+        holder.nameView.setText(servise.getName());
+        holder.capitalView.setText(servise.getCenaUslugi());
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v)
             {
-                onClickListener.onStateClick(state, position);
+                onClickListener.onStateClick(servise, position);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return states.size();
+        return servises.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

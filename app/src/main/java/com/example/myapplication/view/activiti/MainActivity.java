@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.example.myapplication.MyPreferences;
+import com.example.myapplication.repository.MyPreferences;
 import com.example.myapplication.R;
 
 
@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ifFirst();
-
+        //ifFirst();
+        startActivity(new Intent(MainActivity.this,Zaseleniye.class));
     }
     public void ifFirst(){
         Thread t = new Thread(new Runnable() {

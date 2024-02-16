@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.dagger.hilt.android")
 }
 
 
@@ -49,6 +50,11 @@ dependencies {
     implementation ("com.github.yuriy-budiyev:code-scanner:2.3.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.3.0")
+    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    annotationProcessor ("com.google.dagger:hilt-compiler:2.44")
+
 
 
 
@@ -56,3 +62,5 @@ dependencies {
 
 
 }
+
+

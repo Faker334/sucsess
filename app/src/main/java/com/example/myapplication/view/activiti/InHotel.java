@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,9 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.myapplication.MyPreferences;
+import com.example.myapplication.repository.MyPreferences;
 import com.example.myapplication.R;
-import com.example.myapplication.view.adapter.State;
+import com.example.myapplication.view.adapter.Servise;
 import com.example.myapplication.view.adapter.StateAdapter;
 
 import org.json.JSONArray;
@@ -39,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import me.everything.android.ui.overscroll.IOverScrollDecor;
 import me.everything.android.ui.overscroll.IOverScrollState;
 import me.everything.android.ui.overscroll.IOverScrollStateListener;
@@ -46,14 +46,14 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+@AndroidEntryPoint
 public class InHotel extends AppCompatActivity {
 
-    WebView Webview;
     ImageButton button_moi_zaprosi;
     ImageButton button_servis;
     ImageButton button_profil;
     ImageView imageView;
-    ArrayList<State> uslugi = new ArrayList<State>();
+    ArrayList<Servise> uslugi = new ArrayList<Servise>();
    StateAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
     TextView FioProfil;
@@ -64,7 +64,6 @@ public class InHotel extends AppCompatActivity {
     ConstraintLayout profilLayout;
 
     Map<String,Integer> REsoursMap= new HashMap<>();
-
 
 
 
@@ -132,7 +131,7 @@ public class InHotel extends AppCompatActivity {
                             }
                         }
                         Log.e("icon",icon);
-                       uslugi.add(new State(name,cena,REsoursMap.get(icon),nameOpyionsmMap,ootionsvalue,id));
+                       uslugi.add(new Servise(name,cena,REsoursMap.get(icon),nameOpyionsmMap,ootionsvalue,id));
 
                     }
 
@@ -366,7 +365,7 @@ public class InHotel extends AppCompatActivity {
         // определяем слушателя нажатия элемента в списке
         StateAdapter.OnStateClickListener stateClickListener = new StateAdapter.OnStateClickListener() {
             @Override
-            public void onStateClick(State state, int position) {
+            public void onStateClick(Servise state, int position) {
                 if (state.getOptionsName().isEmpty()){
                     Intent i = new Intent(InHotel.this, test.class);
                     i.putExtra("variable",state.getOrganization_id());
@@ -383,17 +382,7 @@ public class InHotel extends AppCompatActivity {
 
         ServisirecyclerView.setAdapter(adapter);
 
-
-
         ServisirecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {  //кольцо обновления не раб
-//            @Override
-//            public void onRefresh() {
-//                swipeRefreshLayout.setRefreshing(true);
-//                new ListUslug().execute();
-//
-//            }
-//        });
 
         IOverScrollDecor decor = OverScrollDecoratorHelper.setUpOverScroll(ServisirecyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
@@ -401,8 +390,6 @@ public class InHotel extends AppCompatActivity {
             @Override
             public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
                 if (newState == IOverScrollState.STATE_IDLE) {
-
-
                    if (!swipeRefreshLayout.isRefreshing()){
                        new ListUslug().execute();
                    }
@@ -471,14 +458,10 @@ public class InHotel extends AppCompatActivity {
 
 
 
-
-
-
-
     }
 
-
-    private  void  ShowCustomDialog(Dialog dialog,State state){
+//диалог
+    private  void  ShowCustomDialog(Dialog dialog, Servise servise){
         dialog.setContentView(R.layout.item_view_in_dialog_in_zakaz_servis);
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.zakrugl);
 
@@ -499,7 +482,7 @@ public class InHotel extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(dialog.getContext(), test.class);
-                 i.putExtra("variable",state.getOrganization_id());
+                 i.putExtra("variable", servise.getOrganization_id());
                 startActivity(i);
 
             }
@@ -523,26 +506,24 @@ public class InHotel extends AppCompatActivity {
         });
 
 
-
-        if (state.getOptionsName().containsKey(1)){
+        if (servise.getOptionsName().containsKey(1)){
             constraintLayout1.setVisibility(View.VISIBLE);
-            Nametipe1.setText(state.getOptionsName().get(1));
+            Nametipe1.setText(servise.getOptionsName().get(1));
 
         }
-        if (state.getOptionsName().containsKey(2)){
+        if (servise.getOptionsName().containsKey(2)){
             constraintLayout2.setVisibility(View.VISIBLE);
-            Nametipe2.setText(state.getOptionsName().get(2));
+            Nametipe2.setText(servise.getOptionsName().get(2));
 
         }
-        if (state.getOptionsName().containsKey(3)){
+        if (servise.getOptionsName().containsKey(3)){
             constraintLayou3.setVisibility(View.VISIBLE);
-            Nametipe3.setText(state.getOptionsName().get(3));
-            ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, state.getOptionsValue());
+            Nametipe3.setText(servise.getOptionsName().get(3));
+            ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, servise.getOptionsValue());
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
 
         }
-
 
         dialog.show();
 

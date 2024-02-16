@@ -10,7 +10,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.example.myapplication.MyPreferences;
+import com.example.myapplication.repository.MyPreferences;
 import com.example.myapplication.R;
 
 import org.json.JSONException;
@@ -62,7 +62,6 @@ public class test extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
 
             Log.e("edittext",result);
             if (result.contains("true")){

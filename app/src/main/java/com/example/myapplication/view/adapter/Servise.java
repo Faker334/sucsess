@@ -1,11 +1,10 @@
 package com.example.myapplication.view.adapter;
 
 
-import java.sql.Time;
 import java.util.List;
 import java.util.Map;
 
-public class State {
+public class Servise {
 
     private String name; // название
     private String cenaUslugi;  // столица
@@ -114,7 +113,7 @@ public class State {
 
 
 
-    public State(String name, String capital, int flag,Map<Integer,String> optionsName,String[] optionsValue,int organization_id){
+    public Servise(String name, String capital, int flag, Map<Integer,String> optionsName, String[] optionsValue, int organization_id){
         this.optionsName=optionsName;
         this.optionsValue=optionsValue;
         this.name=name;

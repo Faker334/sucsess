@@ -1,6 +1,8 @@
 package com.example.myapplication.view.activiti;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -20,9 +22,10 @@ import android.widget.Toast;
 
 import com.example.myapplication.view.adapter.Adapter;
 import com.example.myapplication.view.adapter.CustomSpinner;
-import com.example.myapplication.MyPreferences;
+import com.example.myapplication.repository.MyPreferences;
 import com.example.myapplication.R;
 import com.example.myapplication.view.adapter.HotelName;
+import com.example.myapplication.viewModel.AvtorizationViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,15 +38,17 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+@AndroidEntryPoint
 public class Zaseleniye extends AppCompatActivity  {
+    AvtorizationViewModel avtorizationViewModel;
     int IdHotel=-1;
     int idroom;
-
     String NumberNomer="-1";
     String data="-1";
 
@@ -58,174 +63,53 @@ public class Zaseleniye extends AppCompatActivity  {
     private Adapter HotelAdapter;
     private Adapter NumberAdapter;
     Button qrCodeButton;
-
-
-    private class GetListHotel extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... voids) {
-
-
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            Request request = new Request.Builder()
-                    .url("https://app.successhotel.ru/api/client/organizations")
-                    .method("GET", null)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + getToken()) // Добавление заголовка Authorization
-                    .build();
-
-
-            try {
-               return client.newCall(request).execute().body().string();
-            } catch (IOException e) {
-                Log.e("Tag", "мяу");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                JSONObject  j = new JSONObject(result);
-                JSONArray jArray = j.getJSONArray("organizations");
-                for (int i=0; i < jArray.length(); i++)
-                {
-                        JSONObject oneObject = jArray.getJSONObject(i);
-                        String oneObjectsItem = oneObject.getString("title");
-                        int idHotela  = oneObject.getInt("id");
-                        HotelList.add(new HotelName(oneObjectsItem,idHotela));
-
-
-                }
-                Log.e("TAAAAAAG", result);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-    }
-
-    private class GetNomerBYHOtel extends AsyncTask<Void, Void, String> {
-        protected void  onPreExecute(){
-
-        NumberlList.clear();
-        NumberlList.add(new HotelName("1",-1));
-        }
-        @Override
-        protected String doInBackground(Void... voids) {
-
-
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            Request request = new Request.Builder()
-                    .url("https://app.successhotel.ru/api/client/organizations/"+IdHotel+"/rooms")
-                    .method("GET", null)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + getToken())
-                    .build();
-
-
-            try {
-                return client.newCall(request).execute().body().string();
-            } catch (IOException e) {
-                Log.e("Tag", "мяу");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                JSONObject  j = new JSONObject(result);
-                JSONArray jArray = j.getJSONArray("rooms");
-                for (int i=0; i < jArray.length(); i++)
-                {
-                    JSONObject oneObject = jArray.getJSONObject(i);
-                    String oneObjectsItem = oneObject.getString("name");
-                    int idroom = oneObject.getInt("id");
-                    NumberlList.add(new HotelName(oneObjectsItem,idroom));
-                   Log.e("добавил в намбер лист",NumberlList.get(i).getName());
-                }
-
-
-            } catch (JSONException e) {
-                Log.e("tatat","не нашел комнаты по айди"+IdHotel);
-            }
-            Log.e("TTTTTTTTTAAAAAAAAAAAAAAAGGGG", result);
-        }
-    }
-        private class ToNomerInHotel extends AsyncTask<Void, Void, String> {
-        protected void  onPreExecute(){
-
-
-        }
-        @Override
-        protected String doInBackground(Void... voids) {
-
-
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(mediaType, "{\r\n    \"room_id\":"+idroom+",\r\n    \"chek_in_date\":\""+data+"\"\r\n}");
-            Request request = new Request.Builder()
-                    .url("https://app.successhotel.ru/api/client/check-in")
-                    .method("POST", body)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + getToken())
-                    .build();
-
-
-
-            Log.e("tug","{\r\n    \"room_id\":"+idroom+",\r\n    \"chek_in_date\":\""+data+"\"\r\n}");
-
-            try {
-                return client.newCall(request).execute().body().string();
-            } catch (IOException e) {
-                Log.e("Tag", "tug");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result.contains("true")){
-                SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-                e.putBoolean("ALREADYINHOTEL", true);
-                e.apply();
-                Intent i = new Intent(Zaseleniye.this, InHotel.class);
-                startActivity(i);
-                finish();
-            }else Toast.makeText(Zaseleniye.this,"Ошибка",Toast.LENGTH_LONG).show();
-            Log.e("tag", result);
-        }
-    }
-
     Button InhotelBut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zaseleniye);
 
-        currentDateTime = findViewById(R.id.currentDateTime);
+        avtorizationViewModel = new ViewModelProvider(this).get(AvtorizationViewModel.class);
+        HotelList.add(new HotelName("-1",-1));
+        NumberlList.add(new HotelName("-1",-1));
+        avtorizationViewModel.GetListHotel(); //запрос списка отелей
 
+        //3 мутабла
+        avtorizationViewModel.getMutableListHOtel().observe(this, new Observer<List<HotelName>>() {  // по приходу фиксирует список отелей
+            @Override
+            public void onChanged(List<HotelName> hotelNames) {
+                HotelList.addAll(hotelNames);
+            }
+        });
+        avtorizationViewModel.getMutableListNaumberNomer().observe(this, new Observer<List<HotelName>>() {
+            @Override
+            public void onChanged(List<HotelName> hotelNames) {
+                NumberlList.addAll(hotelNames);
+            }
+        });
+        avtorizationViewModel.getMutableGetNomberSuccses().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    startActivity(new Intent(Zaseleniye.this,InHotel.class));
+                }else Toast.makeText(Zaseleniye.this,"Eror",Toast.LENGTH_LONG);
+            }
+        });
+
+        currentDateTime = findViewById(R.id.currentDateTime);
         SpinerHOtelTextVIew =findViewById(R.id.spinerhoteltext);
         SpinerNumberTextVIew= findViewById(R.id.spinernumberltext);
         qrCodeButton= findViewById(R.id.button_qrcod);
+
         qrCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(Zaseleniye.this, qrcodeActiviti.class));
             }
         });
         SpinerNumberTextVIew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 spinner_Number.performClick();
             }
         });
@@ -235,21 +119,14 @@ public class Zaseleniye extends AppCompatActivity  {
                 spinner_Hotel.performClick();
             }
         });
-        HotelList.add(new HotelName("-1",-1));
-        NumberlList.add(new HotelName("-1",-1));
-
-
-
-
-
-
 
         InhotelBut= findViewById(R.id.button_in_hoyel);
         InhotelBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (IdHotel!=-1 && idroom!=-1&& !(data.equals("-1"))){
-                new ToNomerInHotel().execute();}
+                avtorizationViewModel.getNomber(idroom,data);
+                }
 
             }
         });
@@ -264,9 +141,6 @@ public class Zaseleniye extends AppCompatActivity  {
         spinner_Number.setPrompt("выберите номеррррр");
         spinner_Number.setAdapter(NumberAdapter);
 
-
-
-
         spinner_Hotel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -274,12 +148,10 @@ public class Zaseleniye extends AppCompatActivity  {
                 Log.e("нажали на спинер_хотел","777");
                 IdHotel = HotelList.get(position).getIdroom();
                 if (position!=0){
-
                     spinner_Number.setEnabled(true);
-                    new GetNomerBYHOtel().execute();
+                    avtorizationViewModel.getNamberByhotel(IdHotel);
                     SpinerHOtelTextVIew.setText(HotelList.get(position).getName());
                 }
-
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -297,19 +169,8 @@ public class Zaseleniye extends AppCompatActivity  {
                 Log.e("tata","Twet");
             }
         });
-
-
-        new GetListHotel().execute();
-
-
-
-
     }
-
-private String getToken(){
-    SharedPreferences encryptedPrefs = MyPreferences.getEncryptedSharedPreferences(this);
-    return encryptedPrefs.getString("token","123");
-}
+//////////////выбор даты
 
     TextView currentDateTime;
     Calendar dateAndTime=Calendar.getInstance();
@@ -359,6 +220,4 @@ private String getToken(){
             setTime(view);
         }
     };
-
-
 }
