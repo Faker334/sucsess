@@ -1,5 +1,6 @@
 package com.example.myapplication.repository;
 
+import com.example.myapplication.repository.models.CanselRequestt;
 import com.example.myapplication.repository.models.GetNumberRequest;
 import com.example.myapplication.repository.models.LoginRequest;
 import com.example.myapplication.repository.models.RegistrRequest;
@@ -26,5 +27,17 @@ public interface MyApiService {
     Call<ResponseBody> getNamberByHotel(@Path("id") String id);
     @POST("client/check-in")
     Call<ResponseBody> getNumber(@Body GetNumberRequest getNumberRequest);
+    @GET("client/services")
+    Call<ResponseBody> getServices();
+    @GET("client/profile")
+    Call<ResponseBody> getProfilExequte();
+    @GET("client/check-out")
+    Call<ResponseBody> getExit();
+    @GET("client/orders")
+    Call<ResponseBody> getOrders();
+    @POST("client/orders/{id}/cancel")
+    Call<ResponseBody> canselORder(@Path("id")String orderId,@Body CanselRequestt canselRequest);
+
+
 
 }

@@ -40,7 +40,7 @@ public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(StateAdapter.ViewHolder holder, int position) {
         Servise servise = servises.get(position);
-        holder.flagView.setImageResource(servise.getIkonUslugi());
+        holder.imageview.setImageResource(servise.getIkonUslugi());
         holder.nameView.setText(servise.getName());
         holder.capitalView.setText(servise.getCenaUslugi());
 
@@ -59,11 +59,11 @@ public class StateAdapter  extends RecyclerView.Adapter<StateAdapter.ViewHolder>
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final ImageView flagView;
+        final ImageView imageview;
         final TextView nameView, capitalView;
         ViewHolder(View view){
             super(view);
-            flagView = view.findViewById(R.id.flag);
+            imageview = view.findViewById(R.id.flag);
             nameView = view.findViewById(R.id.name);
             capitalView = view.findViewById(R.id.cenatextview);
         }

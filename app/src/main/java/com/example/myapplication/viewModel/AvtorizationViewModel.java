@@ -9,15 +9,20 @@ import androidx.lifecycle.ViewModel;
 import com.example.myapplication.repository.MyApiService;
 import com.example.myapplication.repository.SheredPrefsRepository;
 import com.example.myapplication.repository.jsonReader;
+import com.example.myapplication.repository.models.CanselRequestt;
+import com.example.myapplication.repository.models.FioProfil;
 import com.example.myapplication.repository.models.GetNumberRequest;
 import com.example.myapplication.repository.models.LoginRequest;
+import com.example.myapplication.repository.models.Order;
 import com.example.myapplication.repository.models.RegistrRequest;
 import com.example.myapplication.view.adapter.HotelName;
+import com.example.myapplication.view.adapter.Servise;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,16 +33,20 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 @HiltViewModel
 public class AvtorizationViewModel  extends ViewModel {
     private MutableLiveData<Boolean> MutableAlreadyInhotel;
     private MutableLiveData<Boolean> loginEror;
+    private MutableLiveData<Boolean> ExitSuccses;
     private MutableLiveData<Boolean> RegitstrSuccses;
     private MutableLiveData<List<HotelName>> ListHotelName;
     private MutableLiveData<List<HotelName>> ListNumberNomer;
     private MutableLiveData<Boolean> GetNumberSuccses;
+    private MutableLiveData<ArrayList<Servise>> GetServiceList;
+    private MutableLiveData<FioProfil> getFioProfil;
+    private MutableLiveData<List<Order>> getOrderList;
+
 
     Boolean isALreadyHotel;
     jsonReader jsonReader = new jsonReader();
@@ -67,6 +76,12 @@ public class AvtorizationViewModel  extends ViewModel {
         }
         return GetNumberSuccses;
     }
+    public MutableLiveData<Boolean> getMutableGetExitSuccses(){
+        if(ExitSuccses ==null){
+            ExitSuccses= new MutableLiveData<Boolean>();
+        }
+        return ExitSuccses;
+    }
     public MutableLiveData<Boolean> getMutableLoginEror(){
         if(loginEror ==null){
            loginEror = new MutableLiveData<Boolean>();
@@ -90,6 +105,24 @@ public class AvtorizationViewModel  extends ViewModel {
             ListNumberNomer = new MutableLiveData<List<HotelName>>();
         }
         return ListNumberNomer;
+    }
+    public MutableLiveData<ArrayList<Servise>> getMutableListServise(){
+        if(GetServiceList ==null){
+            GetServiceList = new MutableLiveData<ArrayList<Servise>>();
+        }
+        return GetServiceList;
+    }
+    public MutableLiveData<FioProfil> getMutableGetFioProfil(){
+        if(getFioProfil==null){
+            getFioProfil= new MutableLiveData<FioProfil>();
+        }
+        return getFioProfil;
+    }
+    public MutableLiveData<List<Order>> getMutableGetListOrder(){
+        if(getOrderList==null){
+            getOrderList= new MutableLiveData<List<Order>>();
+        }
+        return getOrderList;
     }
 
 
@@ -129,7 +162,7 @@ public class AvtorizationViewModel  extends ViewModel {
                     isALreadyHotel = JopjectINprofile.getBoolean("checked_in");
                     if (isALreadyHotel){
                         getMutableAlreadyInhotel().setValue(true);
-                        mSheredPrefsRepository.ALreadyINhotel();
+                        mSheredPrefsRepository.ALreadyINhotel(true);
 
                     }else {
                        getMutableAlreadyInhotel().setValue(false);
@@ -214,10 +247,9 @@ public class AvtorizationViewModel  extends ViewModel {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
-                    Log.e("eror","eror");
                     String responseString = response.body().string();
                     if (responseString.contains("true")){
-                        mSheredPrefsRepository.ALreadyINhotel();
+                        mSheredPrefsRepository.ALreadyINhotel(true);
                         getMutableGetNomberSuccses().setValue(true);
                     }else getMutableGetNomberSuccses().setValue(false);
 
@@ -233,5 +265,97 @@ public class AvtorizationViewModel  extends ViewModel {
             }
         });
     }
+    public void getListServices(){
+        apiServiceWithToken.getServices().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String StringResponce =response.body().string();
+                    getMutableListServise().setValue(jsonReader.getServise(StringResponce));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
+            }
+        });
+
+    }
+    public void ProfilExequte(){
+        apiServiceWithToken.getProfilExequte().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String ResponseString = response.body().string();
+                    getMutableGetFioProfil().setValue(jsonReader.getProfil(ResponseString));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+    public void GetOrders(){
+        apiServiceWithToken.getOrders().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String RespinsString = response.body().string();
+                    Log.e("oreders", RespinsString);
+                    getMutableGetListOrder().setValue(jsonReader.gerOReders(RespinsString));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+    public void exitHotel(){
+        apiServiceWithToken.getExit().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String ResponseString = response.body().string();
+                    if (ResponseString.contains("true")){
+                        mSheredPrefsRepository.ALreadyINhotel(false);
+                    getMutableGetExitSuccses().setValue(true);}
+                    else getMutableGetExitSuccses().setValue(false);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+    public void CanselOrder(int id,String coment){
+        apiServiceWithToken.canselORder(String.valueOf(id),new CanselRequestt(coment)).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    Log.e("cancel",response.body().string());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
 }

@@ -31,7 +31,6 @@ public class avtorization extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avtorization);
         avtorizationViewModel = new ViewModelProvider(this).get(AvtorizationViewModel.class);
-
         StrokaLogin = findViewById(R.id.emailEditTextImya);
         StrokaParol = findViewById(R.id.passwordEditText);
         RegistracuyaButton = findViewById(R.id.Registbutton);

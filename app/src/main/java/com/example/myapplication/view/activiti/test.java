@@ -73,7 +73,7 @@ public class test extends AppCompatActivity {
 
 
             } catch (JSONException e) {
-                startActivity(new Intent(test.this, InHotel.class));
+
                 Log.e("413","41");
             }}
 

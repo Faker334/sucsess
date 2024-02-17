@@ -28,9 +28,9 @@ public  class SheredPrefsRepository implements SheredPrefsRepositoryImpl{
         editor.apply();
         Log.e("pootToken", "положил токен");
     }
-    public void ALreadyINhotel(){
+    public void ALreadyINhotel(Boolean bool){
         SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        e.putBoolean("ALREADYINHOTEL", true);
+        e.putBoolean("ALREADYINHOTEL", bool);
         Log.e("ALreadyINhotel()", "записал тру");
         e.apply();
     }

@@ -2,49 +2,44 @@ package com.example.myapplication.view.activiti;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.myapplication.repository.MyPreferences;
 import com.example.myapplication.R;
+import com.example.myapplication.repository.models.Order;
+import com.example.myapplication.view.adapter.CustomDialog;
+import com.example.myapplication.view.adapter.CustomDialogCancelOrder;
+import com.example.myapplication.view.adapter.OrdersAdapter;
 import com.example.myapplication.view.adapter.Servise;
 import com.example.myapplication.view.adapter.StateAdapter;
+import com.example.myapplication.viewModel.AvtorizationViewModel;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import me.everything.android.ui.overscroll.IOverScrollDecor;
 import me.everything.android.ui.overscroll.IOverScrollState;
 import me.everything.android.ui.overscroll.IOverScrollStateListener;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 @AndroidEntryPoint
 public class InHotel extends AppCompatActivity {
@@ -54,264 +49,34 @@ public class InHotel extends AppCompatActivity {
     ImageButton button_profil;
     ImageView imageView;
     ArrayList<Servise> uslugi = new ArrayList<Servise>();
-   StateAdapter adapter;
+    List<Order> orders = new ArrayList<>();
+   StateAdapter Servisesadapter;
+   OrdersAdapter ordersAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout swipeRefreshLayoutOrders;
     TextView FioProfil;
     TextView PoctaProfil;
     TextView ActivButton;
     Button VisilitcyaButt;
     ImageButton ExitButton;
     ConstraintLayout profilLayout;
-
-    Map<String,Integer> REsoursMap= new HashMap<>();
-
-
-
-    private class ListUslug extends AsyncTask<Void, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            swipeRefreshLayout.setRefreshing(true);
-              uslugi.clear();
-        }
-            @Override
-            protected String doInBackground(Void... voids) {
-
-
-                OkHttpClient client = new OkHttpClient().newBuilder().build();
-                Request request = new Request.Builder()
-                        .url("https://app.successhotel.ru/api/client/services")
-                        .method("GET", null) // Используйте null вместо body для метода GET
-                        .addHeader("Accept", "application/json")
-                        .addHeader("Authorization", "Bearer " + getToken()) // Предполагая, что у вас есть переменная token
-                        .build();
-
-
-
-                try {
-                    String response = client.newCall(request).execute().body().string();
-                    Log.e("Tag",response);
-                return response;
-
-
-                } catch (IOException e) {
-                    Log.e("Tag", "мяу");
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                try {
-                String[] ootionsvalue = new String[3];
-
-                   JSONObject jObject = new JSONObject(result);
-                        JSONArray jArray = jObject.getJSONArray("services");
-                    for (int i = 0; i < jArray.length(); i++) {
-                        JSONObject joneObject = new JSONObject(jArray.getString(i));
-                        String name = joneObject.getString("name");
-                        String cena = joneObject.getString("price");
-                        String icon = joneObject.getString("icon");
-                        int id = joneObject.getInt("id");
-
-                        Map<Integer, String> nameOpyionsmMap = new HashMap<>(); // Создаем новый Map для каждого элемента
-
-                        if (!joneObject.isNull("options")) {
-                            JSONArray jArraywithOptons = joneObject.getJSONArray("options");
-                            for (int j = 0; j < jArraywithOptons.length(); j++) {
-                                JSONObject jObjeckWithOneOptions = new JSONObject(jArraywithOptons.getString(j));
-
-                                int TypeOptons = jObjeckWithOneOptions.getInt("type");
-                                String OPtionsName = jObjeckWithOneOptions.getString("name");
-                                nameOpyionsmMap.put(TypeOptons, OPtionsName);
-
-                                if (TypeOptons == 3) {
-                                    ootionsvalue = jObjeckWithOneOptions.getString("values").split(",");
-                                }
-                            }
-                        }
-                        Log.e("icon",icon);
-                       uslugi.add(new Servise(name,cena,REsoursMap.get(icon),nameOpyionsmMap,ootionsvalue,id));
-
-                    }
-
-                       adapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
-
-       } catch (JSONException e) {
-                    ;
-                    Log.e("ereor",e.getMessage());
-                }
-
-            }
-        }
-    private class ListZakazov extends AsyncTask<Void, Void, String> {
-        @Override
-        protected void onPreExecute() {
-
-        }
-        @Override
-        protected String doInBackground(Void... voids) {
-
-
-            OkHttpClient client = new OkHttpClient().newBuilder().build();
-            Request request = new Request.Builder()
-                    .url("https://app.successhotel.ru/api/client/orders")
-                    .method("GET", null) // Используйте null вместо body для метода GET
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + getToken()) // Предполагая, что у вас есть переменная token
-                    .build();
-
-
-
-            try {
-                String response = client.newCall(request).execute().body().string();
-                Log.e("Tag",response);
-                return response;
-
-
-            } catch (IOException e) {
-                Log.e("Tag", "мяу");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {  
-//            try {
-//
-//
-//                JSONObject jObject = new JSONObject(result);   
-//                JSONArray jArray = jObject.getJSONArray("orders");
-//                for (int i = 0; i < jArray.length(); i++) {
-//                    JSONObject joneObject = new JSONObject(jArray.getString(i));
-//                    String name = joneObject.getString("name");
-//                    String Status = joneObject.getString("status");
-//                    String time = joneObject.getString("time");
-//
-//
-//                }
-//
-//                
-//                swipeRefreshLayout.setRefreshing(false);
-//
-//            } catch (JSONException e) {
-//                ;
-//                Log.e("ereor",e.getMessage());
-//            }
-            swipeRefreshLayout.setRefreshing(false);
-        }  //обработка ответа на список услуг ответ не известен
-    }
-    private class ProfilExequete extends AsyncTask<Void, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            swipeRefreshLayout.setRefreshing(true);
-        }
-        @Override
-        protected String doInBackground(Void... voids) {
-
-            OkHttpClient client = new OkHttpClient().newBuilder().build();
-            Request request = new Request.Builder()
-                    .url("https://app.successhotel.ru/api/client/profile")
-                    .method("GET", null)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + getToken())
-                    .build();
-
-
-
-            try {
-                String response = client.newCall(request).execute().body().string();
-                Log.e("Tag",response);
-                return response;
-
-
-            } catch (IOException e) {
-                Log.e("Tag", "мяу");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-
-
-                JSONObject jObject = new JSONObject(result);
-                JSONObject JopjectINprofile = new JSONObject(jObject.getString("profile"));
-               String Emailrofil = JopjectINprofile.getString("email");
-                String FullNameProfil = JopjectINprofile.getString("full_name");
-                FioProfil.setText(FullNameProfil);
-                PoctaProfil.setText(Emailrofil);
-                swipeRefreshLayout.setRefreshing(false);
-
-            } catch (JSONException e) {
-                ;
-                Log.e("ereor",e.getMessage());
-            }
-
-        }
-    }
-    private class Visilenie extends AsyncTask<Void, Void, String> {
-        @Override
-        protected void onPreExecute() {
-        }
-        @Override
-        protected String doInBackground(Void... voids) {
-
-
-
-            OkHttpClient client = new OkHttpClient().newBuilder().build();
-            Request request = new Request.Builder()
-                    .url("https://app.successhotel.ru/api/client/check-out")
-                    .method("GET", null)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + getToken())
-                    .build();
-
-
-
-            try {
-                String response = client.newCall(request).execute().body().string();
-                Log.e("Tag",response);
-                return response;
-
-
-            } catch (IOException e) {
-                Log.e("Tag", "мяу");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-                SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-                e.putBoolean("ALREADYINHOTEL", false);
-                e.apply();
-                Intent i = new Intent(InHotel.this,Zaseleniye.class);
-                startActivity(i);
-                finish();
-                if (!result.contains("true")){
-                    Toast.makeText(InHotel.this, "Ошибка", Toast.LENGTH_SHORT).show();
-
-                }
-
-        }
-    }
+    AvtorizationViewModel avtorizationViewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in_hotel);
+       setContentView(R.layout.activity_in_hotel);
+
+        avtorizationViewModel = new ViewModelProvider(this).get(AvtorizationViewModel.class);
+
     button_moi_zaprosi = findViewById(R.id.Button_moi_zaprosi);
     button_servis = findViewById(R.id.Button_servisi);
     button_profil = findViewById(R.id.Button_profil);
     imageView=findViewById(R.id.imageView9);
     swipeRefreshLayout = findViewById(R.id.refreshlayaut);
+    swipeRefreshLayoutOrders = findViewById(R.id.refreshlayautOrders);
+
     RecyclerView ServisirecyclerView = findViewById(R.id.servis_recikleview);
     RecyclerView MoiZakaziRecyclerView = findViewById(R.id.moizakazi_recikleview);
     FioProfil = findViewById(R.id.FioPRofil);
@@ -322,27 +87,49 @@ public class InHotel extends AppCompatActivity {
     ActivButton = findViewById(R.id.Activ);
 
 
-    REsoursMap.put("blender.png",R.drawable.blender);
-    REsoursMap.put("washing-machine.png",R.drawable.washing_machine);
-    REsoursMap.put("safe-box.png",R.drawable.safe_box);
-    REsoursMap.put("fence.png",R.drawable.fence);
-    REsoursMap.put("nightstand.png",R.drawable.nightstand);
-    REsoursMap.put("dining-table.png",R.drawable.dining_table);
-    REsoursMap.put("smart-lock.png",R.drawable.smart_lock);
-    REsoursMap.put("sofa.png",R.drawable.sofa);
-    REsoursMap.put("trash-can.png",R.drawable.trash_can);
+    avtorizationViewModel.getMutableListServise().observe(this, new Observer<ArrayList<Servise>>() {
+        @Override
+        public void onChanged(ArrayList<Servise> servises) {
+            uslugi.addAll(servises);
+            Servisesadapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    });
+    avtorizationViewModel.getMutableGetFioProfil().observe(this, new Observer<com.example.myapplication.repository.models.FioProfil>() {
+        @Override
+        public void onChanged(com.example.myapplication.repository.models.FioProfil fioProfil) {
+            FioProfil.setText(fioProfil.getFio());
+            PoctaProfil.setText(fioProfil.getEmail());
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    });
+    avtorizationViewModel.getMutableGetExitSuccses().observe(this, new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean aBoolean) {
+            if (aBoolean){
+                Intent i = new Intent(InHotel.this,Zaseleniye.class);
+                startActivity(i);
+                finish();
+            }else Toast.makeText(InHotel.this, "Ошибка", Toast.LENGTH_SHORT).show();
+        }
+    });
+    avtorizationViewModel.getMutableGetListOrder().observe(this, new Observer<List<Order>>() {
+        @Override
+        public void onChanged(List<Order> ordersFromREquset) {
+            orders.clear();
+        orders.addAll(ordersFromREquset);
+        ordersAdapter.notifyDataSetChanged();
+        swipeRefreshLayoutOrders.setRefreshing(false);
 
-
-
-        new ListUslug().execute();
-        new ProfilExequete().execute();
+        }
+    });
+    avtorizationViewModel.getListServices();
+    avtorizationViewModel.ProfilExequte();
     ExitButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             SharedPreferences encryptedPrefs = MyPreferences.getEncryptedSharedPreferences(InHotel.this);
             encryptedPrefs.edit().remove("token");
-
             SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
             e.putBoolean("ALREADYINHOTEL", false);
             e.apply();
@@ -355,7 +142,7 @@ public class InHotel extends AppCompatActivity {
     VisilitcyaButt.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-           new Visilenie().execute();
+           avtorizationViewModel.exitHotel();
         }
     });
 
@@ -366,32 +153,62 @@ public class InHotel extends AppCompatActivity {
         StateAdapter.OnStateClickListener stateClickListener = new StateAdapter.OnStateClickListener() {
             @Override
             public void onStateClick(Servise state, int position) {
-                if (state.getOptionsName().isEmpty()){
+                if (state.getOptionsSevis().size()==0){
                     Intent i = new Intent(InHotel.this, test.class);
                     i.putExtra("variable",state.getOrganization_id());
                     startActivity(i);
-
                 }else {
 
-                Dialog dialog = new Dialog(InHotel.this);
-                ShowCustomDialog(dialog,uslugi.get(position));}
+                CustomDialog dialog = new CustomDialog();
+                dialog.setServise(uslugi.get(position));
+                    dialog.show(getSupportFragmentManager(), "tag");
+                }
                 //код после нажатия на айтем
             }
         };
-        adapter = new StateAdapter(this, uslugi, stateClickListener);
-
-        ServisirecyclerView.setAdapter(adapter);
+        Servisesadapter = new StateAdapter(this, uslugi, stateClickListener);
+        ServisirecyclerView.setAdapter(Servisesadapter);
 
         ServisirecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        IOverScrollDecor decor = OverScrollDecoratorHelper.setUpOverScroll(ServisirecyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        OrdersAdapter.OnOrderClickListener  onOrderClickListener = new OrdersAdapter.OnOrderClickListener() {
+            @Override
+            public void onStateClick(Order order, int position) {
+                if (order.getStatus()!=4){
+                CustomDialogCancelOrder customDialogCancelOrder = new CustomDialogCancelOrder();
+                customDialogCancelOrder.setAvtorizationViewModel(avtorizationViewModel);
+                customDialogCancelOrder.setIdOrder(orders.get(position).getOrderId());
+                customDialogCancelOrder.show(getSupportFragmentManager(),"tag1");
+                Log.e("нажатие на ордер", "r");}
+            }
+        };
 
-        decor.setOverScrollStateListener(new IOverScrollStateListener() {  //Отслежевание чрезмерного скрола
+        ordersAdapter = new OrdersAdapter(this,orders,onOrderClickListener);
+        MoiZakaziRecyclerView.setAdapter(ordersAdapter);
+        MoiZakaziRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ordersAdapter.notifyDataSetChanged();
+
+        //Отслежевание чрезмерного скрола
+        IOverScrollDecor decor = OverScrollDecoratorHelper.setUpOverScroll(ServisirecyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        IOverScrollDecor decorOrders = OverScrollDecoratorHelper.setUpOverScroll(MoiZakaziRecyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        decorOrders.setOverScrollStateListener(new IOverScrollStateListener() {
+            @Override
+            public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
+                if (!swipeRefreshLayoutOrders.isRefreshing()){
+                    swipeRefreshLayoutOrders.setRefreshing(true);
+                    avtorizationViewModel.GetOrders();
+                }
+            }
+        });
+
+        decor.setOverScrollStateListener(new IOverScrollStateListener() {
             @Override
             public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
                 if (newState == IOverScrollState.STATE_IDLE) {
                    if (!swipeRefreshLayout.isRefreshing()){
-                       new ListUslug().execute();
+                       swipeRefreshLayout.setRefreshing(true);
+                       uslugi.clear();
+                       avtorizationViewModel.getListServices();
                    }
                 }
             }
@@ -414,11 +231,12 @@ public class InHotel extends AppCompatActivity {
                     ServisirecyclerView.setVisibility(View.GONE);
                     MoiZakaziRecyclerView.setVisibility(View.VISIBLE);
                     ServisirecyclerView.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    swipeRefreshLayoutOrders.setVisibility(View.VISIBLE);
                     profilLayout.setVisibility(View.GONE);
                     ActivButton.setText("Мои запросы");
-
-                    new ListZakazov().execute();
+                    swipeRefreshLayoutOrders.setRefreshing(true);
+                   avtorizationViewModel.GetOrders();
 
                 }
             });
@@ -436,6 +254,8 @@ public class InHotel extends AppCompatActivity {
                 ServisirecyclerView.setVisibility(View.VISIBLE);
                 MoiZakaziRecyclerView.setVisibility(View.GONE);
                 profilLayout.setVisibility(View.GONE);
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                swipeRefreshLayoutOrders.setVisibility(View.GONE);
 
             }
         });
@@ -449,88 +269,9 @@ public class InHotel extends AppCompatActivity {
 
                 profilLayout.setVisibility(View.VISIBLE);
                 swipeRefreshLayout.setVisibility(View.GONE);
+                swipeRefreshLayoutOrders.setVisibility(View.GONE);
                 ActivButton.setText("Мой профиль");
-
-
-
             }
         });
-
-
-
-    }
-
-//диалог
-    private  void  ShowCustomDialog(Dialog dialog, Servise servise){
-        dialog.setContentView(R.layout.item_view_in_dialog_in_zakaz_servis);
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.zakrugl);
-
-
-
-        ImageButton PlusButton = dialog.findViewById(R.id.Buttoncountplus);
-        ImageButton MinusButton = dialog.findViewById(R.id.ButtonCountMinus);
-        TextView CunTedittext = dialog.findViewById(R.id.textViewCount);
-        ConstraintLayout constraintLayout1=dialog.findViewById(R.id.layout_tipe_1);
-        ConstraintLayout constraintLayout2=dialog.findViewById(R.id.layout_tipe_2);
-        ConstraintLayout constraintLayou3=dialog.findViewById(R.id.layout_tipe_3);
-        TextView Nametipe1 = dialog.findViewById(R.id.name_type1);
-        TextView Nametipe2 = dialog.findViewById(R.id.name_tipe2);
-        TextView Nametipe3 = dialog.findViewById(R.id.name_tipe3);
-        Spinner spinner = dialog.findViewById(R.id.spinner_options);
-        Button zakazUslug = dialog.findViewById(R.id.buttonzakazulsug);
-        zakazUslug.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(dialog.getContext(), test.class);
-                 i.putExtra("variable", servise.getOrganization_id());
-                startActivity(i);
-
-            }
-        });
-
-
-        PlusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-               CunTedittext.setText(String.valueOf(Integer.parseInt(CunTedittext.getText().toString())+1));
-
-            }
-        });
-        MinusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CunTedittext.setText(String.valueOf(Integer.parseInt(CunTedittext.getText().toString())-1));
-
-            }
-        });
-
-
-        if (servise.getOptionsName().containsKey(1)){
-            constraintLayout1.setVisibility(View.VISIBLE);
-            Nametipe1.setText(servise.getOptionsName().get(1));
-
-        }
-        if (servise.getOptionsName().containsKey(2)){
-            constraintLayout2.setVisibility(View.VISIBLE);
-            Nametipe2.setText(servise.getOptionsName().get(2));
-
-        }
-        if (servise.getOptionsName().containsKey(3)){
-            constraintLayou3.setVisibility(View.VISIBLE);
-            Nametipe3.setText(servise.getOptionsName().get(3));
-            ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, servise.getOptionsValue());
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-
-        }
-
-        dialog.show();
-
-
-    }
-    private String getToken(){
-        SharedPreferences encryptedPrefs = MyPreferences.getEncryptedSharedPreferences(this);
-        return encryptedPrefs.getString("token","123");
     }
 }

@@ -75,29 +75,7 @@ public class Servise {
         this.optionsCaunt = optionsCaunt;
     }
 
-    public List<String> getOptionsTipe() {
-        return optionsTipe;
-    }
 
-    public void setOptionsTipe(List<String> optionsTipe) {
-        this.optionsTipe = optionsTipe;
-    }
-
-    public Map<Integer,String> getOptionsName() {
-        return optionsName;
-    }
-
-    public void setOptionsName(Map<Integer,String> optionsName) {
-        this.optionsName = optionsName;
-    }
-
-    public String[] getOptionsValue() {
-        return optionsValue;
-    }
-
-    public void setOptionsValue(String[] optionsValue) {
-        this.optionsValue = optionsValue;
-    }
 
     private int id;
     private String valuta;
@@ -107,15 +85,30 @@ public class Servise {
     private Boolean isaktiv;
     private String options;
     private String optionsCaunt;
-    private List<String> optionsTipe;
-    private Map<Integer,String> optionsName;
-    private String[] optionsValue;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<OptionsServis> getOptionsSevis() {
+        return optionsSevis;
+    }
+
+    public void setOptionsSevis(List<OptionsServis> optionsSevis) {
+        this.optionsSevis = optionsSevis;
+    }
+
+    private List<OptionsServis> optionsSevis;
 
 
 
-    public Servise(String name, String capital, int flag, Map<Integer,String> optionsName, String[] optionsValue, int organization_id){
-        this.optionsName=optionsName;
-        this.optionsValue=optionsValue;
+
+    public Servise(String name, String capital, int flag,int organization_id, List<OptionsServis> optionsSevis){
+       this.optionsSevis = optionsSevis;
         this.name=name;
         this.cenaUslugi =capital;
         this.IkonUslugi =flag;

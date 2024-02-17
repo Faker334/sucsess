@@ -5,5 +5,5 @@ import android.content.Context;
 interface SheredPrefsRepositoryImpl {
     String getToken();
     void pootToken(String token);
-    void ALreadyINhotel();
+    void ALreadyINhotel(Boolean bool);
 }
